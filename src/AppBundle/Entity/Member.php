@@ -8,13 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
  * Member
  *
  * @ORM\Table(name="member")
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity
  */
 class Member
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -25,44 +24,79 @@ class Member
     /**
      * @var string
      *
-     * @ORM\Column(name="forename", type="string", length=50, nullable=false)
+     * @ORM\Column(name="forename", type="string", length=45, nullable=false)
      */
     private $forename;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=50, nullable=false)
+     * @ORM\Column(name="lastname", type="string", length=45, nullable=false)
      */
     private $lastname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", nullable=false)
+     * @ORM\Column(name="username", type="string", length=45, nullable=false)
      */
-    private $type;
+    private $username;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="ip", type="string", length=15, nullable=true)
+     * @ORM\Column(name="password", type="string", length=45, nullable=true)
      */
-    private $ip;
+    private $password;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="birthdate", type="date", nullable=true)
+     */
+    private $birthdate;
+
+    /**
+     * @var \DateTime|null
      *
      * @ORM\Column(name="created_date", type="datetime", nullable=true)
      */
     private $createdDate;
 
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="gender", type="string", length=0, nullable=true)
+     */
+    private $gender;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="photo", type="text", length=0, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Role", mappedBy="member")
+     */
+    private $role;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->role = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -70,7 +104,7 @@ class Member
     }
 
     /**
-     * Set forename
+     * Set forename.
      *
      * @param string $forename
      *
@@ -84,7 +118,7 @@ class Member
     }
 
     /**
-     * Get forename
+     * Get forename.
      *
      * @return string
      */
@@ -94,7 +128,7 @@ class Member
     }
 
     /**
-     * Set lastname
+     * Set lastname.
      *
      * @param string $lastname
      *
@@ -108,7 +142,7 @@ class Member
     }
 
     /**
-     * Get lastname
+     * Get lastname.
      *
      * @return string
      */
@@ -118,61 +152,85 @@ class Member
     }
 
     /**
-     * Set type
+     * Set username.
      *
-     * @param string $type
+     * @param string $username
      *
      * @return Member
      */
-    public function setType($type)
+    public function setUsername($username)
     {
-        $this->type = $type;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get username.
      *
      * @return string
      */
-    public function getType()
+    public function getUsername()
     {
-        return $this->type;
+        return $this->username;
     }
 
     /**
-     * Set ip
+     * Set password.
      *
-     * @param string $ip
+     * @param string|null $password
      *
      * @return Member
      */
-    public function setIp($ip)
+    public function setPassword($password = null)
     {
-        $this->ip = $ip;
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * Get ip
+     * Get password.
      *
-     * @return string
+     * @return string|null
      */
-    public function getIp()
+    public function getPassword()
     {
-        return $this->ip;
+        return $this->password;
     }
 
     /**
-     * Set createdDate
+     * Set birthdate.
      *
-     * @param \DateTime $createdDate
+     * @param \DateTime|null $birthdate
      *
      * @return Member
      */
-    public function setCreatedDate($createdDate)
+    public function setBirthdate($birthdate = null)
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * Get birthdate.
+     *
+     * @return \DateTime|null
+     */
+    public function getBirthdate()
+    {
+        return $this->birthdate;
+    }
+
+    /**
+     * Set createdDate.
+     *
+     * @param \DateTime|null $createdDate
+     *
+     * @return Member
+     */
+    public function setCreatedDate($createdDate = null)
     {
         $this->createdDate = $createdDate;
 
@@ -180,9 +238,9 @@ class Member
     }
 
     /**
-     * Get createdDate
+     * Get createdDate.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getCreatedDate()
     {
@@ -190,10 +248,86 @@ class Member
     }
 
     /**
-     * @ORM\PrePersist
+     * Set gender.
+     *
+     * @param string|null $gender
+     *
+     * @return Member
      */
-    public function setCreatedDateValue()
+    public function setGender($gender = null)
     {
-        $this->createdDate = new \DateTime();
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender.
+     *
+     * @return string|null
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set photo.
+     *
+     * @param string|null $photo
+     *
+     * @return Member
+     */
+    public function setPhoto($photo = null)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo.
+     *
+     * @return string|null
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Add role.
+     *
+     * @param \AppBundle\Entity\Role $role
+     *
+     * @return Member
+     */
+    public function addRole(\AppBundle\Entity\Role $role)
+    {
+        $this->role[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Remove role.
+     *
+     * @param \AppBundle\Entity\Role $role
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeRole(\AppBundle\Entity\Role $role)
+    {
+        return $this->role->removeElement($role);
+    }
+
+    /**
+     * Get role.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 }

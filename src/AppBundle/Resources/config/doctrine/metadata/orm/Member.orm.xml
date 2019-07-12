@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="Member" table="member">
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="forename" type="string" column="forename" length="50" nullable="false">
+    <field name="forename" type="string" column="forename" length="45" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="lastname" type="string" column="lastname" length="50" nullable="false">
+    <field name="lastname" type="string" column="lastname" length="45" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="type" type="string" column="type" nullable="false">
+    <field name="username" type="string" column="username" length="45" nullable="false">
       <options>
         <option name="fixed"/>
       </options>
     </field>
-    <field name="ip" type="string" column="ip" length="15" nullable="true">
+    <field name="password" type="string" column="password" length="45" nullable="true">
       <options>
         <option name="fixed"/>
       </options>
     </field>
+    <field name="birthdate" type="date" column="birthdate" nullable="true"/>
     <field name="createdDate" type="datetime" column="created_date" nullable="true"/>
+    <field name="gender" type="string" column="gender" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="photo" type="text" column="photo" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-many field="role" target-entity="Role" mapped-by="member" fetch="LAZY"/>
   </entity>
 </doctrine-mapping>
