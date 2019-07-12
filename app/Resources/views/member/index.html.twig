@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Members list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Forename</th>
+                <th>Lastname</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Birthdate</th>
+                <th>Createddate</th>
+                <th>Gender</th>
+                <th>Photo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member in members %}
+            <tr>
+                <td><a href="{{ path('_show', { 'id': member.id }) }}">{{ member.id }}</a></td>
+                <td>{{ member.forename }}</td>
+                <td>{{ member.lastname }}</td>
+                <td>{{ member.username }}</td>
+                <td>{{ member.password }}</td>
+                <td>{% if member.birthdate %}{{ member.birthdate|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if member.createdDate %}{{ member.createdDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ member.gender }}</td>
+                <td>{{ member.photo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('_show', { 'id': member.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('_edit', { 'id': member.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('_new') }}">Create a new member</a>
+        </li>
+    </ul>
+{% endblock %}
