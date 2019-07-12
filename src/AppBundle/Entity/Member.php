@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Member
  *
  * @ORM\Table(name="member")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity
  */
 class Member
@@ -245,6 +246,14 @@ class Member
     public function getCreatedDate()
     {
         return $this->createdDate;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedDateValue()
+    {
+        $this->createdDate = new \DateTime();
     }
 
     /**
